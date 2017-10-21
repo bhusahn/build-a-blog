@@ -2,13 +2,24 @@
 <html>
     <head>
         <title>{{title}}</title>
+        
     </head>
 <body>
-        <a href="http://127.0.0.1:5000">Main Blog Page</a>
+        <style>
+                body {
+                   background-color:lightblue;
+                }
+                
         
-        <a href="http://127.0.0.1:5000/newpost">Add a Blog Entry</a>
-
-    {% block content %}
+        h1 {
+            color: maroon;
+             }
+              </style>
+        <a href="/blog">Main Blog Page</a>
+        
+        <a href="/newpost">Add a Blog Entry</a>
+        
+{% block content %}
     {% endblock %}
 
 </body>

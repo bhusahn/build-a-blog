@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, render_template, url_for
+from flask import Flask, request, redirect, render_template, flash
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -35,21 +35,25 @@ def index():
 @app.route('/newpost', methods=['POST', 'GET'])
 def add_new_blog():
     if request.method == 'POST':
-        blog_id = request.args.get('id')
+        
         blog_title = request.form['blog-title']
         blog_entry = request.form['blog-entry']
+        if blog_title is None or blog_entry is None:
+            flash("Please provide a blog title and a blog entry.", "error")
+            
         new_blog = Blog(blog_title, blog_entry)
         db.session.add(new_blog)
         db.session.commit()
-        blogs = ''
-        if blog_id is None:
-            blogs = Blog.query.all()
-            return redirect('/')
-        else:
-            blog=Blog.query.get(int(blog_id))
-            return render_template('new-blog-submission.html', title='Post', blogs=[blog])
     
+        blog_id = Blog.query.get('id')
+        if blog_id is None is True:
+            return redirect("/")
+        else:
+            
+            blog=Blog.query.get('id')
+            return render_template("new-blog-submission.html", blog_title=blog_title, blog_entry=blog_entry)
 
+           
     return render_template('add-new-blog.html')
 @app.route('/blog', methods=['POST','GET'])
 def new_blog():

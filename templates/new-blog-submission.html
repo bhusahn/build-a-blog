@@ -1,13 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form>
-{% for blog in blogs %}
-            <h1 align="center">{{blog.title}}</h1>
-            <p>{{blog.body}}</p>
+<style>
+    .error {
+        color:red;
+    }
+    </style>
+
+<form method='POST' action="/"></form>
+            <h1 align="center">{{blog_title}}</h1>
+            <p>{{blog_entry}}</p>
+            <p class='error'>{{error}}</p>
             
-            </form>
-                
-            {% endfor %}
+           
+            
        
 {% endblock %}
