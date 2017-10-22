@@ -6,6 +6,7 @@ app.config['DEBUG'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://build-a-blog:iyswtric17@localhost:8889/build-a-blog'
 app.config['SQLALCHEMY_ECHO'] = True
 db = SQLAlchemy(app)
+app.secret_key = 'abcdefghij'
 
 class Blog(db.Model):
 
@@ -38,20 +39,31 @@ def add_new_blog():
         
         blog_title = request.form['blog-title']
         blog_entry = request.form['blog-entry']
-        if blog_title is None or blog_entry is None:
-            flash("Please provide a blog title and a blog entry.", "error")
-            
-        new_blog = Blog(blog_title, blog_entry)
-        db.session.add(new_blog)
-        db.session.commit()
-    
-        blog_id = Blog.query.get('id')
-        if blog_id is None is True:
-            return redirect("/")
+        titleerror =''
+        entryerror =''
+        error = False
+        
+        if not blog_title or blog_title.strip() =='':
+            titleerror = "Please provide a blog title."
+            error=True
+        if not blog_entry or blog_entry.strip() =='':
+            entryerror = "Please provide a blog entry."
+            error=True
+        if error:
+            return render_template('add-new-blog.html', entryerror=entryerror, titleerror=titleerror,
+        blog_entry=blog_entry, blog_title=blog_title)
         else:
+            new_blog = Blog(blog_title, blog_entry)
+            db.session.add(new_blog)
+            db.session.commit()
+        
+            blog_id = Blog.query.get('id')
+            if blog_id is None is True:
+                return redirect("/")
+            else:
             
-            blog=Blog.query.get('id')
-            return render_template("new-blog-submission.html", blog_title=blog_title, blog_entry=blog_entry)
+                blog=Blog.query.get('id')
+                return render_template("new-blog-submission.html", blog_title=blog_title, blog_entry=blog_entry)
 
            
     return render_template('add-new-blog.html')

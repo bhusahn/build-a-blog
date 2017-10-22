@@ -1,30 +1,22 @@
 {% extends "base.html" %}
 
 {% block content %}
-<style>
-        .error {
-            color:red;
-        }
-        </style>
-    {% with messages = get_flashed_messages(with_categories=True) %}
-    <ul>
-    {% for category, message in messages %}
-        <li class="{{category}}"> {{message}}</li>
-    {% endfor %}
-    </ul>
-    {% endwith %}
+
+    
     <h1 align="center">Add a Blog Entry</h1>
     <form method='post' action="/newpost">
         <label>
             <p>Title for your new blog:</p>
-            <input type="text" name='blog-title' />
+            <input type="text" name='blog-title'>
+            <span style= "color:red;"> {{titleerror}} </span>
             
         </label>
         <br>
         <br>
         <label>
             <p>Your new blog:</p>
-            <textarea rows="15" cols="50"name='blog-entry' /></textarea>
+            <textarea rows="15" cols="50"name='blog-entry'></textarea>
+            <span style= "color:red;"> {{entryerror}} </span>
         <br><br><br><input type="submit" value='Add Entry' />   
         
     </label>
